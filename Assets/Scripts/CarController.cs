@@ -10,10 +10,12 @@ public class CarController : MonoBehaviour
     private const string VERTICAL = "Vertical";
 
     private float horizontalInput;
-    private float verticalInput;
+    private float throttleInput;
+    private float brakeInput;
+
     private float currentSteerAngle;
     private float currentBrakeForce;
-    private bool isBraking;
+    private bool isHandBrakeOn;
 
     public Transform centerOfMass;
 
@@ -40,13 +42,15 @@ public class CarController : MonoBehaviour
 
     private Quaternion defaultRotation;
     private Vector3 defaultPosition;
+    private WheelFrictionCurve defaultForwardFrictionCurve;
+    private WheelFrictionCurve defaultSidewaysFrictionCurve;
 
     private Rigidbody rb;
 
     public float[] gearRatios;
-    public int currentGear = 0;
+    private int currentGear = 1;
     float engineRPM = 0;
-    public float minRpm;
+    public float redline;
     public float maxRpm;
 
     public AnimationCurve torqueCurve;
@@ -57,6 +61,11 @@ public class CarController : MonoBehaviour
         defaultRotation = transform.rotation;
         defaultPosition = transform.position;
 
+        defaultForwardFrictionCurve = rearLeftWheelCollider.forwardFriction;
+        defaultSidewaysFrictionCurve = rearLeftWheelCollider.sidewaysFriction;
+
+        currentGear = 1;
+
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = centerOfMass.localPosition;
     }
@@ -65,7 +74,6 @@ public class CarController : MonoBehaviour
     {
         GetInput();
         UpdateWheels();
-        GearShift();
 
         double speed = Math.Round(rb.velocity.magnitude * 3.6);
         speedo.text = speed.ToString() + "km/h";
@@ -73,30 +81,27 @@ public class CarController : MonoBehaviour
         //double wheelSpeed = Math.Round(((rearLeftWheelCollider.rpm * 2 * 3.14 * rearLeftWheelCollider.radius) / 60) * 3.6);
         //  speedo1.text = wheelSpeed.ToString() + "km/h";
 
-        
-
-
         rpmText.text = Math.Round(engineRPM).ToString() + "rpm";
 
         gearText.text = currentGear.ToString();
+
     }
 
     private void FixedUpdate()
     {
         if (drive == driveType.RWD)
         {
-            engineRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm) / 2 * gearRatios[currentGear];
+            engineRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm) / 2f * gearRatios[currentGear];
         }
         else
         {
-            engineRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm + frontLeftWheelCollider.rpm + frontRightWheelCollider.rpm) / 4 * gearRatios[currentGear];
+            engineRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm + frontLeftWheelCollider.rpm + frontRightWheelCollider.rpm) / 4f * gearRatios[currentGear];
         }
 
         HandleMotor();
         HandleSteering();
        
     }
-
 
     private void GetInput()
     {
@@ -106,49 +111,96 @@ public class CarController : MonoBehaviour
             transform.position = defaultPosition;
         }
         horizontalInput = Input.GetAxis(HORIZONTAL);
-        verticalInput = Input.GetAxis(VERTICAL);
-        isBraking = Input.GetKey(KeyCode.Space);
-        
+
+        float verticalInput = Input.GetAxis(VERTICAL);
+        if(verticalInput >= 0)
+        {
+            brakeInput = 0;
+            throttleInput = verticalInput;
+        }
+        else
+        {
+            throttleInput = 0;
+            brakeInput = -verticalInput;
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            isHandBrakeOn = true;
+        }
+        else
+        {
+            isHandBrakeOn = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ApplyHandbrake();
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            ReleaseHandbrake();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if(currentGear > 0)
+            {
+                gearDown();
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if(currentGear < gearRatios.Length - 1)
+            {
+                gearUp();
+            }
+
+        }
+
     }
 
-    private void GearShift()
+    private void gearUp()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && currentGear > 0)
-        {
-            currentGear -= 1;
-        }
-
-        if (Input.GetKeyDown(KeyCode.E) && currentGear < 5)
-        {
-            currentGear += 1;
-        }
+        currentGear += 1;
     }
-
+    private void gearDown()
+    {
+        currentGear -= 1;
+    }
 
 
     private void HandleMotor()
     {
-        double wheelSpeed = Math.Round(((rearLeftWheelCollider.rpm * 2 * 3.14 * rearLeftWheelCollider.radius) / 60) * 3.6);
-
-        Debug.Log(torqueCurve.Evaluate(engineRPM*gearLength));
-        //Debug.Log(torqueCurve.Evaluate(engineRPM) * motorForce * gearRatios[currentGear] * verticalInput);
-
-
-        if (drive == driveType.RWD){
-            rearLeftWheelCollider.motorTorque = torqueCurve.Evaluate(engineRPM*gearLength)  * gearRatios[currentGear] * verticalInput;
-            rearRightWheelCollider.motorTorque = torqueCurve.Evaluate(engineRPM*gearLength)  * gearRatios[currentGear] * verticalInput;
+        //double wheelSpeed = Math.Round(((rearLeftWheelCollider.rpm * 2 * 3.14 * rearLeftWheelCollider.radius) / 60) * 3.6);
+        float mt;
+        if (currentGear > 0)
+        {
+            float torque = torqueCurve.Evaluate(engineRPM * gearLength);
+            mt = torque * gearRatios[currentGear] * throttleInput * motorForce;
         }
         else
         {
-            rearLeftWheelCollider.motorTorque = motorForce * gearRatios[currentGear] * verticalInput;
-            rearRightWheelCollider.motorTorque = motorForce * gearRatios[currentGear] * verticalInput;
-            frontLeftWheelCollider.motorTorque = motorForce * gearRatios[currentGear] * verticalInput;
-            frontRightWheelCollider.motorTorque = motorForce * gearRatios[currentGear] * verticalInput;
+            float torque = torqueCurve.Evaluate(-engineRPM * gearLength);
+            mt = -torque * gearRatios[currentGear] * throttleInput * motorForce;
         }
 
+        if (drive == driveType.RWD)
+        {
+            rearLeftWheelCollider.motorTorque = mt;
+            rearRightWheelCollider.motorTorque = mt;
+        }
+        else
+        {
+            rearLeftWheelCollider.motorTorque = mt;
+            rearRightWheelCollider.motorTorque = mt;
+            frontLeftWheelCollider.motorTorque = mt;
+            frontRightWheelCollider.motorTorque = mt;
+        }
         currentBrakeForce = 0f;
 
-        currentBrakeForce = isBraking ? brakeForce : currentBrakeForce;
+        currentBrakeForce = Mathf.Lerp(0, brakeForce, brakeInput);
+        Debug.Log(currentBrakeForce);
         ApplyBraking();
     }
 
@@ -165,8 +217,37 @@ public class CarController : MonoBehaviour
         currentSteerAngle = maxSteerAngle * horizontalInput;
         frontLeftWheelCollider.steerAngle = currentSteerAngle;
         frontRightWheelCollider.steerAngle = currentSteerAngle;
+
+        if (isHandBrakeOn)
+        {
+            rearLeftWheelCollider.brakeTorque = brakeForce;
+            rearRightWheelCollider.brakeTorque = brakeForce;
+        }
     }
 
+    private void ApplyHandbrake()
+    {
+        WheelFrictionCurve newForwardCurve = rearLeftWheelCollider.forwardFriction;
+        newForwardCurve.stiffness = defaultForwardFrictionCurve.stiffness / 2;
+        WheelFrictionCurve newSidewaysCurve = rearLeftWheelCollider.sidewaysFriction;
+        newSidewaysCurve.stiffness = defaultSidewaysFrictionCurve.stiffness / 2;
+        rearLeftWheelCollider.forwardFriction = newForwardCurve;
+        rearLeftWheelCollider.sidewaysFriction = newSidewaysCurve;
+        rearRightWheelCollider.forwardFriction = newForwardCurve;
+        rearRightWheelCollider.sidewaysFriction = newSidewaysCurve;
+    }
+
+    private void ReleaseHandbrake()
+    {
+        WheelFrictionCurve newForwardCurve = rearLeftWheelCollider.forwardFriction;
+        newForwardCurve.stiffness = defaultForwardFrictionCurve.stiffness;
+        WheelFrictionCurve newSidewaysCurve = rearLeftWheelCollider.sidewaysFriction;
+        newSidewaysCurve.stiffness = defaultSidewaysFrictionCurve.stiffness;
+        rearLeftWheelCollider.forwardFriction = newForwardCurve;
+        rearLeftWheelCollider.sidewaysFriction = newSidewaysCurve;
+        rearRightWheelCollider.forwardFriction = newForwardCurve;
+        rearRightWheelCollider.sidewaysFriction = newSidewaysCurve;
+    }
     private void UpdateWheels()
     {
         UpdateSingleWheel(frontLeftWheelCollider, frontLeftWheelTransform);
