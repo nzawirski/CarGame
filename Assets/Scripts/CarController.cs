@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 public class CarController : MonoBehaviour
 {
     private const string HORIZONTAL = "Horizontal";
@@ -56,6 +57,11 @@ public class CarController : MonoBehaviour
     public AnimationCurve torqueCurve;
     public float gearLength;
 
+    //Post processing bullshit
+    public Volume m_Volume;
+    private VolumeProfile ppProfile;
+    private ChromaticAberration ca;
+
     //Gauges
     public Slider tacho;
     public Slider rpmDisplay;
@@ -68,6 +74,13 @@ public class CarController : MonoBehaviour
         defaultForwardFrictionCurve = rearLeftWheelCollider.forwardFriction;
         defaultSidewaysFrictionCurve = rearLeftWheelCollider.sidewaysFriction;
 
+        //pp
+        ppProfile = m_Volume.sharedProfile;
+        if(!ppProfile.TryGet<ChromaticAberration>(out ChromaticAberration ca))
+        {
+            ca = ppProfile.Add<ChromaticAberration>(false);
+        }
+        ca.intensity.Override(0f);
         //Set redline on Tacho
         tacho.value = redline / maxRpm;
 
@@ -82,6 +95,7 @@ public class CarController : MonoBehaviour
         GetInput();
         UpdateWheels();
 
+
         double speed = Math.Round(rb.velocity.magnitude * 3.6);
         speedo.text = speed.ToString() + "km/h";
 
@@ -95,6 +109,11 @@ public class CarController : MonoBehaviour
         //update rpms on tacho
         rpmDisplay.value = engineRPM / maxRpm;
 
+        //pp
+        ppProfile.TryGet<ChromaticAberration>(out ChromaticAberration ca);
+        float caIntensity = Mathf.Lerp(0, 1, (float)speed / 150);
+        Debug.Log(caIntensity);
+        ca.intensity.Override(caIntensity);
 
     }
 
