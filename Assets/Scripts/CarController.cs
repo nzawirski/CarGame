@@ -56,6 +56,10 @@ public class CarController : MonoBehaviour
     public AnimationCurve torqueCurve;
     public float gearLength;
 
+    //Gauges
+    public Slider tacho;
+    public Slider rpmDisplay;
+
     void Start()
     {
         defaultRotation = transform.rotation;
@@ -63,6 +67,9 @@ public class CarController : MonoBehaviour
 
         defaultForwardFrictionCurve = rearLeftWheelCollider.forwardFriction;
         defaultSidewaysFrictionCurve = rearLeftWheelCollider.sidewaysFriction;
+
+        //Set redline on Tacho
+        tacho.value = redline / maxRpm;
 
         currentGear = 1;
 
@@ -84,6 +91,10 @@ public class CarController : MonoBehaviour
         rpmText.text = Math.Round(engineRPM).ToString() + "rpm";
 
         gearText.text = currentGear.ToString();
+
+        //update rpms on tacho
+        rpmDisplay.value = engineRPM / maxRpm;
+
 
     }
 
@@ -124,7 +135,7 @@ public class CarController : MonoBehaviour
             brakeInput = -verticalInput;
         }
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 0"))
         {
             isHandBrakeOn = true;
         }
@@ -133,23 +144,23 @@ public class CarController : MonoBehaviour
             isHandBrakeOn = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0"))
         {
             ApplyHandbrake();
         }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp("joystick button 0"))
         {
             ReleaseHandbrake();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown("joystick button 2"))
         {
             if(currentGear > 0)
             {
                 gearDown();
             }
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 1"))
         {
             if(currentGear < gearRatios.Length - 1)
             {
@@ -200,7 +211,6 @@ public class CarController : MonoBehaviour
         currentBrakeForce = 0f;
 
         currentBrakeForce = Mathf.Lerp(0, brakeForce, brakeInput);
-        Debug.Log(currentBrakeForce);
         ApplyBraking();
     }
 
