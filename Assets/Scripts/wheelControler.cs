@@ -5,34 +5,50 @@ using UnityEngine;
 public class wheelControler : MonoBehaviour
 {
     private WheelCollider wheelCollider;
-    public TrailRenderer trailRenderer;
+    private TrailRenderer trailRenderer;
+    private ParticleSystem pS;
+    private ParticleSystem.EmissionModule particleEmission;
 
-    // Start is called before the first frame update
     void Start()
     {
         wheelCollider = GetComponent<WheelCollider>();
-
+        trailRenderer = GetComponentInChildren<TrailRenderer>();
+        pS = GetComponent<ParticleSystem>();
+        particleEmission = pS.emission;
+        particleEmission.enabled = false;
+        pS.Play();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        ParticleSystem pS = GetComponent<ParticleSystem>();
+
         WheelHit hit;
 
         if (wheelCollider.GetGroundHit(out hit))
         {
-            Debug.Log(hit.sidewaysSlip);
             if (hit.sidewaysSlip > 0.5 || hit.forwardSlip > 0.5 || hit.sidewaysSlip < -0.5 || hit.forwardSlip < -0.5)
             {
-                var em = pS.emission;
-                em.enabled = true; //bez prewarmu nie działa
-                pS.Play();
+                if((hit.sidewaysSlip > 0.7 || hit.forwardSlip > 0.7 || hit.sidewaysSlip < -0.7 || hit.forwardSlip < -0.7))
+                {
+                    particleEmission.enabled = true;
+                }
+                else
+                {
+                    particleEmission.enabled = false;
+                }
+                trailRenderer.emitting = true;
+                
             } else
             {
-               pS.Stop();
+                particleEmission.enabled = false;
+                trailRenderer.emitting = false;
             }
-
         }
+        else
+        {
+            particleEmission.enabled = false;
+            trailRenderer.emitting = false;
+        }
+
     }
 }
