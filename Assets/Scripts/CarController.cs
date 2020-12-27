@@ -66,6 +66,8 @@ public class CarController : MonoBehaviour
     public Slider tacho;
     public Slider rpmDisplay;
 
+    public Image rpmImage;
+
     void Start()
     {
         defaultRotation = transform.rotation;
@@ -107,14 +109,17 @@ public class CarController : MonoBehaviour
         gearText.text = currentGear.ToString();
 
         //update rpms on tacho
+        rpmImage.color = engineRPM > redline ? new Color(1f, 0f, 0f) : new Color(1f, 1f, 1f);
         rpmDisplay.value = engineRPM / maxRpm;
+       
 
         //pp
         ppProfile.TryGet<ChromaticAberration>(out ChromaticAberration ca);
         float caIntensity = Mathf.Lerp(0, 1, (float)speed / 150);
-        Debug.Log(caIntensity);
+
         ca.intensity.Override(caIntensity);
 
+      
     }
 
     private void FixedUpdate()
