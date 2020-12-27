@@ -35,12 +35,22 @@ public class CarController : MonoBehaviour
     public driveType drive = driveType.RWD;
 
     public Text speedo;
-    public Text speedo1;
+    public Text rpmText;
+    public Text gearText;
 
     private Quaternion defaultRotation;
     private Vector3 defaultPosition;
 
     private Rigidbody rb;
+
+    public float[] gearRatios;
+    public int currentGear = 0;
+    float engineRPM = 0;
+    public float minRpm;
+    public float maxRpm;
+
+    public AnimationCurve torqueCurve;
+    public float gearLength;
 
     void Start()
     {
@@ -55,18 +65,36 @@ public class CarController : MonoBehaviour
     {
         GetInput();
         UpdateWheels();
+        GearShift();
 
         double speed = Math.Round(rb.velocity.magnitude * 3.6);
         speedo.text = speed.ToString() + "km/h";
 
-        double wheelSpeed = Math.Round(((rearLeftWheelCollider.rpm * 2 * 3.14 * rearLeftWheelCollider.radius) / 60) * 3.6);
-        speedo1.text = wheelSpeed.ToString() + "km/h";
+        //double wheelSpeed = Math.Round(((rearLeftWheelCollider.rpm * 2 * 3.14 * rearLeftWheelCollider.radius) / 60) * 3.6);
+        //  speedo1.text = wheelSpeed.ToString() + "km/h";
+
+        
+
+
+        rpmText.text = Math.Round(engineRPM).ToString() + "rpm";
+
+        gearText.text = currentGear.ToString();
     }
 
     private void FixedUpdate()
     {
+        if (drive == driveType.RWD)
+        {
+            engineRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm) / 2 * gearRatios[currentGear];
+        }
+        else
+        {
+            engineRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm + frontLeftWheelCollider.rpm + frontRightWheelCollider.rpm) / 4 * gearRatios[currentGear];
+        }
+
         HandleMotor();
         HandleSteering();
+       
     }
 
 
@@ -80,20 +108,42 @@ public class CarController : MonoBehaviour
         horizontalInput = Input.GetAxis(HORIZONTAL);
         verticalInput = Input.GetAxis(VERTICAL);
         isBraking = Input.GetKey(KeyCode.Space);
+        
     }
+
+    private void GearShift()
+    {
+        if (Input.GetKeyDown(KeyCode.Q) && currentGear > 0)
+        {
+            currentGear -= 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && currentGear < 5)
+        {
+            currentGear += 1;
+        }
+    }
+
+
 
     private void HandleMotor()
     {
-        if(drive == driveType.RWD){
-            rearLeftWheelCollider.motorTorque = verticalInput * motorForce;
-            rearRightWheelCollider.motorTorque = verticalInput * motorForce;
+        double wheelSpeed = Math.Round(((rearLeftWheelCollider.rpm * 2 * 3.14 * rearLeftWheelCollider.radius) / 60) * 3.6);
+
+        Debug.Log(torqueCurve.Evaluate(engineRPM*gearLength));
+        //Debug.Log(torqueCurve.Evaluate(engineRPM) * motorForce * gearRatios[currentGear] * verticalInput);
+
+
+        if (drive == driveType.RWD){
+            rearLeftWheelCollider.motorTorque = torqueCurve.Evaluate(engineRPM*gearLength)  * gearRatios[currentGear] * verticalInput;
+            rearRightWheelCollider.motorTorque = torqueCurve.Evaluate(engineRPM*gearLength)  * gearRatios[currentGear] * verticalInput;
         }
         else
         {
-            rearLeftWheelCollider.motorTorque = verticalInput * motorForce;
-            rearRightWheelCollider.motorTorque = verticalInput * motorForce;
-            frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
-            frontRightWheelCollider.motorTorque = verticalInput * motorForce;
+            rearLeftWheelCollider.motorTorque = motorForce * gearRatios[currentGear] * verticalInput;
+            rearRightWheelCollider.motorTorque = motorForce * gearRatios[currentGear] * verticalInput;
+            frontLeftWheelCollider.motorTorque = motorForce * gearRatios[currentGear] * verticalInput;
+            frontRightWheelCollider.motorTorque = motorForce * gearRatios[currentGear] * verticalInput;
         }
 
         currentBrakeForce = 0f;
