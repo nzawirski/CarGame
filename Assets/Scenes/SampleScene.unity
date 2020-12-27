@@ -731,7 +731,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -268, y: -135}
+  m_AnchoredPosition: {x: -310, y: -200}
   m_SizeDelta: {x: 240, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &789736257
@@ -755,7 +755,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 1730df31ced35a64ca9f3274bf4e7d84, type: 3}
-    m_FontSize: 40
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -809,7 +809,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -268, y: -173}
+  m_AnchoredPosition: {x: -310, y: -230}
   m_SizeDelta: {x: 240, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &889903245
@@ -833,7 +833,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 1730df31ced35a64ca9f3274bf4e7d84, type: 3}
-    m_FontSize: 40
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1111,6 +1111,11 @@ PrefabInstance:
       propertyPath: m_ForwardFriction.m_Stiffness
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 631679903144941826, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 90000
+      objectReference: {fileID: 0}
     - target: {fileID: 1272424387993083090, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1153,6 +1158,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
+      propertyPath: gearRatios.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
       propertyPath: speedo
       value: 
       objectReference: {fileID: 889903245}
@@ -1166,20 +1181,265 @@ PrefabInstance:
       propertyPath: engineBrakeForce
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: drive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: gearRatios.Array.data[0]
+      value: 2.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: gearText
+      value: 
+      objectReference: {fileID: 2069766722}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: rpmText
+      value: 
+      objectReference: {fileID: 789736257}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: gearRatios.Array.data[1]
+      value: 1.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: gearRatios.Array.data[2]
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: gearRatios.Array.data[3]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: gearRatios.Array.data[4]
+      value: 0.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: gearRatios.Array.data[5]
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: minRpm
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: maxRpm
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: motorForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[0].inSlope
+      value: 0.003461361
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[0].outSlope
+      value: 0.003461361
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[1].time
+      value: 1992.1799
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[1].value
+      value: 101.51661
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[1].inSlope
+      value: -0.028003512
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[1].outSlope
+      value: -0.028003512
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[1].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[1].inWeight
+      value: 0.11761441
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[1].outWeight
+      value: 0.15836047
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[2].time
+      value: 3013.7935
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[2].value
+      value: 0.17971039
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[0].outWeight
+      value: 0.20551617
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[2].inSlope
+      value: -0.13914156
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[2].outSlope
+      value: -0.13914156
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[2].inWeight
+      value: 0.2022042
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[2].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[3].time
+      value: 3013.7935
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[3].value
+      value: 0.17971039
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[3].inSlope
+      value: -0.13914156
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[3].outSlope
+      value: -0.13914156
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[3].inWeight
+      value: 0.2022042
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[3].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[4].time
+      value: 5332.4443
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[4].value
+      value: 71.40337
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[4].inSlope
+      value: -0.08679329
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[4].outSlope
+      value: -0.08679329
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[4].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[4].outWeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_PostInfinity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[0].value
+      value: 100.38834
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: torqueCurve.m_Curve.Array.data[0].time
+      value: -2.25461
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: gearLength
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722580562028837247, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1500
+      objectReference: {fileID: 0}
     - target: {fileID: 4525952701455158317, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525952701455158317, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 90000
       objectReference: {fileID: 0}
     - target: {fileID: 6460501617476004228, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6460501617476004228, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 90000
+      objectReference: {fileID: 0}
     - target: {fileID: 8819320617379014283, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819320617379014283, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 90000
       objectReference: {fileID: 0}
     - target: {fileID: 9018711897451218650, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
@@ -1640,6 +1900,7 @@ RectTransform:
   m_Children:
   - {fileID: 889903244}
   - {fileID: 789736256}
+  - {fileID: 2069766721}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2198,3 +2459,81 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036913083}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2069766720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2069766721}
+  - component: {fileID: 2069766723}
+  - component: {fileID: 2069766722}
+  m_Layer: 5
+  m_Name: Speedo (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2069766721
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069766720}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1473684054}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -310, y: -170}
+  m_SizeDelta: {x: 240, y: 80}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2069766722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069766720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 0, b: 0.09024477, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 1730df31ced35a64ca9f3274bf4e7d84, type: 3}
+    m_FontSize: 30
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 118
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &2069766723
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069766720}
+  m_CullTransparentMesh: 0
