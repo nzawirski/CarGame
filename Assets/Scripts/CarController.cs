@@ -55,7 +55,6 @@ public class CarController : MonoBehaviour
     public float maxRpm;
 
     public AnimationCurve torqueCurve;
-    public float gearLength;
 
     //Post processing bullshit
     public Volume m_Volume;
@@ -211,12 +210,12 @@ public class CarController : MonoBehaviour
         float mt;
         if (currentGear > 0)
         {
-            float torque = torqueCurve.Evaluate(engineRPM * gearLength);
+            float torque = torqueCurve.Evaluate(engineRPM);
             mt = torque * gearRatios[currentGear] * throttleInput * motorForce;
         }
         else
         {
-            float torque = torqueCurve.Evaluate(-engineRPM * gearLength);
+            float torque = torqueCurve.Evaluate(-engineRPM);
             mt = -torque * gearRatios[currentGear] * throttleInput * motorForce;
         }
 
