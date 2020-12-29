@@ -9,7 +9,7 @@ public class wheelControler : MonoBehaviour
     private ParticleSystem pS;
     private ParticleSystem.EmissionModule particleEmission;
 
-    private FMODUnity.StudioEventEmitter eventEmmiter;
+    private FMODUnity.StudioEventEmitter soundEmmiter;
 
     void Start()
     {
@@ -22,7 +22,7 @@ public class wheelControler : MonoBehaviour
         pS.Play();
 
         //sfx
-        //eventEmmiter = GetComponent<FMODUnity.StudioEventEmitter>();
+        soundEmmiter = GetComponent<FMODUnity.StudioEventEmitter>();
     }
 
     void Update()
@@ -43,9 +43,9 @@ public class wheelControler : MonoBehaviour
                     particleEmission.enabled = false;
                 }
                 trailRenderer.emitting = true;
-                if (!eventEmmiter.IsPlaying())
+                if (!soundEmmiter.IsPlaying())
                 {
-                    //eventEmmiter.Play();
+                    soundEmmiter.Play();
                 }
 
                 
@@ -53,9 +53,9 @@ public class wheelControler : MonoBehaviour
             {
                 particleEmission.enabled = false;
                 trailRenderer.emitting = false;
-                if (eventEmmiter.IsPlaying())
+                if (soundEmmiter.IsPlaying())
                 {
-                    //eventEmmiter.Stop();
+                    soundEmmiter.Stop();
                 }
             }
         }
@@ -63,9 +63,9 @@ public class wheelControler : MonoBehaviour
         {
             particleEmission.enabled = false;
             trailRenderer.emitting = false;
-            if (eventEmmiter.IsPlaying())
+            if (soundEmmiter.IsPlaying())
             {
-                //eventEmmiter.Stop();
+                soundEmmiter.Stop();
             }
         }
 

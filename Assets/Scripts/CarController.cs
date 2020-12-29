@@ -9,21 +9,12 @@ public class CarController : MonoBehaviour
 {
     private const string HORIZONTAL = "Horizontal";
     private const string VERTICAL = "Vertical";
-
+    //Input
     private float horizontalInput;
     private float throttleInput;
     private float brakeInput;
 
-    private float currentSteerAngle;
-    private float currentBrakeForce;
-    private bool isHandBrakeOn;
-
-    public Transform centerOfMass;
-
-    [SerializeField] private float motorForce;
-    [SerializeField] private float brakeForce;
-    [SerializeField] private float maxSteerAngle;
-
+    //Wheels
     [SerializeField] private WheelCollider frontLeftWheelCollider;
     [SerializeField] private WheelCollider frontRightWheelCollider;
     [SerializeField] private WheelCollider rearLeftWheelCollider;
@@ -34,38 +25,55 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearLeftWheelTransform;
     [SerializeField] private Transform rearRightWheelTransform;
 
-    public enum driveType { RWD, AWD }
-    public driveType drive = driveType.RWD;
-
-    public Text speedo;
-    public Text rpmText;
-    public Text gearText;
-
+    //Default stats
     private Quaternion defaultRotation;
     private Vector3 defaultPosition;
     private WheelFrictionCurve defaultForwardFrictionCurve;
     private WheelFrictionCurve defaultSidewaysFrictionCurve;
 
-    private Rigidbody rb;
-
-    public float[] gearRatios;
+    //Private vars
+    private float currentSteerAngle;
+    private float currentBrakeForce;
+    private bool isHandBrakeOn;
     private int currentGear = 1;
     float engineRPM = 0;
+
+    private Rigidbody rb;
+
+    //stats
+    [SerializeField] private float motorForce;
+    [SerializeField] private float brakeForce;
+    [SerializeField] private float maxSteerAngle;
+    public float[] gearRatios;
+    public enum driveType { RWD, AWD }
+    public driveType drive = driveType.RWD;
+    public AnimationCurve torqueCurve;
     public float redline;
     public float maxRpm;
 
-    public AnimationCurve torqueCurve;
+    public Transform centerOfMass;
 
     //Post processing bullshit
     public Volume m_Volume;
     private VolumeProfile ppProfile;
     private ChromaticAberration ca;
 
+    //UI
+    public Text speedo;
+    public Text rpmText;
+    public Text gearText;
     //Gauges
     public Slider tacho;
     public Slider rpmDisplay;
-
     public Image rpmImage;
+
+    //Sound
+    private FMODUnity.StudioEventEmitter engineSoundEmmiter;
+    private FMOD.Studio.EventInstance engineSoundInstance;
+    private FMOD.Studio.EventDescription engineSoundDescription;
+    private FMOD.Studio.PARAMETER_DESCRIPTION fmodRPM;
+    private FMOD.Studio.PARAMETER_DESCRIPTION fmodLoad;
+
 
     void Start()
     {
@@ -89,6 +97,17 @@ public class CarController : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = centerOfMass.localPosition;
+
+        //Sound
+        //event:/Engine/Engine1
+
+        engineSoundEmmiter = GetComponent<FMODUnity.StudioEventEmitter>();
+        engineSoundEmmiter.Play();
+        engineSoundInstance = engineSoundEmmiter.EventInstance;
+        engineSoundDescription = engineSoundEmmiter.EventDescription;
+
+        engineSoundDescription.getParameterDescriptionByName("RPM", out fmodRPM);
+        engineSoundDescription.getParameterDescriptionByName("Load", out fmodLoad);
     }
 
     private void Update()
@@ -110,6 +129,11 @@ public class CarController : MonoBehaviour
         //update rpms on tacho
         rpmImage.color = engineRPM > redline ? new Color(1f, 0f, 0f) : new Color(1f, 1f, 1f);
         rpmDisplay.value = engineRPM / maxRpm;
+
+        //SFX
+        engineSoundInstance.setParameterByID(fmodRPM.id, engineRPM / maxRpm);
+        engineSoundInstance.setParameterByID(fmodLoad.id, Mathf.Lerp(0.2f, 0.8f, throttleInput));
+
        
 
         //pp
