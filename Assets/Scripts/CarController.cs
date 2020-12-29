@@ -132,7 +132,7 @@ public class CarController : MonoBehaviour
 
         //SFX
         engineSoundInstance.setParameterByID(fmodRPM.id, engineRPM / maxRpm);
-        engineSoundInstance.setParameterByID(fmodLoad.id, Mathf.Lerp(0.2f, 0.8f, throttleInput));
+        engineSoundInstance.setParameterByID(fmodLoad.id, Mathf.Lerp(0.4f, 0.8f, throttleInput));
 
        
 

@@ -1626,6 +1626,11 @@ PrefabInstance:
       propertyPath: m_Parameters.colorGradient.m_NumAlphaKeys
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 631679903144941826, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: tacho
@@ -1684,6 +1689,26 @@ PrefabInstance:
     - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: gearRatios.Array.data[5]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2722580562028837247, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_Drag
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525952701455158317, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6460501617476004228, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819320617379014283, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9018711897451218650, guid: 493f102d2090f8d46af91ba621813e86,
