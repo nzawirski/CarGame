@@ -37,6 +37,7 @@ public class CarController : MonoBehaviour
     private bool isHandBrakeOn;
     private int currentGear = 1;
     float engineRPM = 0;
+    private bool clutchEngaged = false;
 
     private Rigidbody rb;
 
@@ -50,7 +51,7 @@ public class CarController : MonoBehaviour
     public AnimationCurve torqueCurve;
     public float redline;
     public float maxRpm;
-
+    public float shiftTime;
     public Transform centerOfMass;
 
     //Post processing bullshit
@@ -131,10 +132,8 @@ public class CarController : MonoBehaviour
         rpmDisplay.value = engineRPM / maxRpm;
 
         //SFX
-        engineSoundInstance.setParameterByID(fmodRPM.id, engineRPM / maxRpm);
+        engineSoundInstance.setParameterByID(fmodRPM.id, Mathf.Abs(engineRPM) / maxRpm);
         engineSoundInstance.setParameterByID(fmodLoad.id, Mathf.Lerp(0.4f, 0.8f, throttleInput));
-
-       
 
         //pp
         ppProfile.TryGet<ChromaticAberration>(out ChromaticAberration ca);
@@ -163,26 +162,31 @@ public class CarController : MonoBehaviour
 
     private void GetInput()
     {
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKey(KeyCode.R)) //reset
         {
             transform.rotation = defaultRotation;
             transform.position = defaultPosition;
         }
-        horizontalInput = Input.GetAxis(HORIZONTAL);
+
+        horizontalInput = Input.GetAxis(HORIZONTAL); // turning
 
         float verticalInput = Input.GetAxis(VERTICAL);
-        if(verticalInput >= 0)
+        if(verticalInput >= 0) //throttle
         {
             brakeInput = 0;
-            throttleInput = verticalInput;
+            if (!clutchEngaged)
+            {
+                throttleInput = verticalInput;
+            }
+
         }
-        else
+        else //brake
         {
             throttleInput = 0;
             brakeInput = -verticalInput;
         }
 
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 0"))
+        if (Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 0")) //handbrake
         {
             isHandBrakeOn = true;
         }
@@ -190,7 +194,6 @@ public class CarController : MonoBehaviour
         {
             isHandBrakeOn = false;
         }
-
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0"))
         {
             ApplyHandbrake();
@@ -200,22 +203,38 @@ public class CarController : MonoBehaviour
             ReleaseHandbrake();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown("joystick button 2"))
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown("joystick button 2")) //gear down
         {
             if(currentGear > 0)
             {
+                engageClutch();
+                throttleInput = 0;
                 gearDown();
+                Invoke(nameof(disengageClutch), shiftTime);
             }
         }
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 1"))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 1")) //gear up
         {
             if(currentGear < gearRatios.Length - 1)
             {
+                engageClutch();
+                throttleInput = 0;
                 gearUp();
+                Invoke(nameof(disengageClutch), shiftTime);
             }
 
         }
 
+    }
+
+    private void engageClutch()
+    {
+        clutchEngaged = true;
+    }
+
+    private void disengageClutch()
+    {
+        clutchEngaged = false;
     }
 
     private void gearUp()
