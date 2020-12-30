@@ -475,6 +475,81 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 631679903144941826, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 631679903144941826, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: tacho
+      value: 
+      objectReference: {fileID: 735428618}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: speedo
+      value: 
+      objectReference: {fileID: 889903245}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: rpmText
+      value: 
+      objectReference: {fileID: 789736257}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: gearText
+      value: 
+      objectReference: {fileID: 2069766722}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_Volume
+      value: 
+      objectReference: {fileID: 628885249}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: rpmImage
+      value: 
+      objectReference: {fileID: 1524619568}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: rpmDisplay
+      value: 
+      objectReference: {fileID: 435681667}
+    - target: {fileID: 4525952701455158317, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525952701455158317, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6460501617476004228, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6460501617476004228, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819320617379014283, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8819320617379014283, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9018711897451218650, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: m_Name
@@ -483,7 +558,7 @@ PrefabInstance:
     - target: {fileID: 9024097110788656788, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9024097110788656788, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
@@ -554,7 +629,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!65 &559525734
 BoxCollider:
@@ -630,6 +705,30 @@ Transform:
   m_Father: {fileID: 998137227}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 18.809}
+--- !u!1 &589782146 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 206872766, guid: 493f102d2090f8d46af91ba621813e86,
+    type: 3}
+  m_PrefabInstance: {fileID: 515896598}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &589782147 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 206872767, guid: 493f102d2090f8d46af91ba621813e86,
+    type: 3}
+  m_PrefabInstance: {fileID: 515896598}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &628885249 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3283916509167168519, guid: 4c0be569209084a4a86046b9839a080a,
+    type: 3}
+  m_PrefabInstance: {fileID: 3283916510463007493}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &684054882
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,7 +1199,7 @@ GameObject:
   - component: {fileID: 789736258}
   - component: {fileID: 789736257}
   m_Layer: 5
-  m_Name: Speedo (1)
+  m_Name: rpms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1446,7 +1545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f12c1708686ff342875f77534651767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 0}
+  Target: {fileID: 589782147}
   cameraHeight: 1
   offset: 7
   SmoothFactor: 0.2
@@ -1463,7 +1562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attenuationObject: {fileID: 0}
+  attenuationObject: {fileID: 589782146}
   ListenerNumber: -1
 --- !u!1 &998137226
 GameObject:
@@ -2012,7 +2111,7 @@ GameObject:
   - component: {fileID: 1524619569}
   - component: {fileID: 1524619568}
   m_Layer: 5
-  m_Name: Fill
+  m_Name: FillRPM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2074,6 +2173,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524619566}
   m_CullTransparentMesh: 0
+--- !u!1 &1602125746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1602125748}
+  - component: {fileID: 1602125747}
+  m_Layer: 0
+  m_Name: Decal Projector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1602125747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602125746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19d9143a39eb3b46bc4563e9889cfbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 2
+  m_Material: {fileID: 2100000, guid: 7c59a3810a401ef4d83b7f739d15dc50, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_AffectsTransparency: 0
+  m_Offset: {x: 0, y: 0, z: 2.5}
+  m_Size: {x: 14, y: 14, z: 14}
+  m_FadeFactor: 1
+--- !u!4 &1602125748
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602125746}
+  m_LocalRotation: {x: -0.5166483, y: -0.48277798, z: -0.48277798, w: 0.5166483}
+  m_LocalPosition: {x: -11.54, y: -0.64, z: 2.18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: -86.118004}
 --- !u!1 &1647172683
 GameObject:
   m_ObjectHideFlags: 0
@@ -2659,7 +2811,7 @@ GameObject:
   - component: {fileID: 2069766723}
   - component: {fileID: 2069766722}
   m_Layer: 5
-  m_Name: Speedo (2)
+  m_Name: gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
