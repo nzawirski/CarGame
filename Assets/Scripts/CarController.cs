@@ -28,8 +28,6 @@ public class CarController : MonoBehaviour
     //Default stats
     private Quaternion defaultRotation;
     private Vector3 defaultPosition;
-    private WheelFrictionCurve defaultForwardFrictionCurve;
-    private WheelFrictionCurve defaultSidewaysFrictionCurve;
 
     //Private vars
     private float currentSteerAngle;
@@ -42,16 +40,6 @@ public class CarController : MonoBehaviour
     private Rigidbody rb;
 
     //stats
-    [SerializeField] private float motorForce;
-    [SerializeField] private float brakeForce;
-    [SerializeField] private float maxSteerAngle;
-    public float[] gearRatios;
-    public enum driveType { RWD, AWD }
-    public driveType drive = driveType.RWD;
-    public AnimationCurve torqueCurve;
-    public float redline;
-    public float maxRpm;
-    public float shiftTime;
     public Transform centerOfMass;
 
     //Post processing bullshit
@@ -75,14 +63,15 @@ public class CarController : MonoBehaviour
     private FMOD.Studio.PARAMETER_DESCRIPTION fmodRPM;
     private FMOD.Studio.PARAMETER_DESCRIPTION fmodLoad;
 
+    //Parts
+    public Engine engine;
+    public Transmission transmission;
+    public Suspension suspension;
 
     void Start()
     {
         defaultRotation = transform.rotation;
         defaultPosition = transform.position;
-
-        defaultForwardFrictionCurve = rearLeftWheelCollider.forwardFriction;
-        defaultSidewaysFrictionCurve = rearLeftWheelCollider.sidewaysFriction;
 
         //pp
         ppProfile = m_Volume.sharedProfile;
@@ -92,7 +81,7 @@ public class CarController : MonoBehaviour
         }
         ca.intensity.Override(0f);
         //Set redline on Tacho
-        tacho.value = redline / maxRpm;
+        tacho.value = engine.redline / engine.maxRpm;
 
         currentGear = 1;
 
@@ -128,11 +117,11 @@ public class CarController : MonoBehaviour
         gearText.text = currentGear.ToString();
 
         //update rpms on tacho
-        rpmImage.color = engineRPM > redline ? new Color(1f, 0f, 0f) : new Color(1f, 1f, 1f);
-        rpmDisplay.value = engineRPM / maxRpm;
+        rpmImage.color = engineRPM > engine.redline ? new Color(1f, 0f, 0f) : new Color(1f, 1f, 1f);
+        rpmDisplay.value = engineRPM / engine.maxRpm;
 
         //SFX
-        engineSoundInstance.setParameterByID(fmodRPM.id, Mathf.Abs(engineRPM) / maxRpm);
+        engineSoundInstance.setParameterByID(fmodRPM.id, Mathf.Abs(engineRPM) / engine.maxRpm);
         engineSoundInstance.setParameterByID(fmodLoad.id, Mathf.Lerp(0.4f, 0.8f, throttleInput));
 
         //pp
@@ -146,13 +135,13 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (drive == driveType.RWD)
+        if (suspension.drive == Suspension.driveType.RWD)
         {
-            engineRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm) / 2f * gearRatios[currentGear];
+            engineRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm) / 2f * transmission.gearRatios[currentGear];
         }
         else
         {
-            engineRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm + frontLeftWheelCollider.rpm + frontRightWheelCollider.rpm) / 4f * gearRatios[currentGear];
+            engineRPM = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm + frontLeftWheelCollider.rpm + frontRightWheelCollider.rpm) / 4f * transmission.gearRatios[currentGear];
         }
 
         HandleMotor();
@@ -210,17 +199,17 @@ public class CarController : MonoBehaviour
                 engageClutch();
                 throttleInput = 0;
                 gearDown();
-                Invoke(nameof(disengageClutch), shiftTime);
+                Invoke(nameof(disengageClutch), transmission.shiftTime);
             }
         }
         if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 1")) //gear up
         {
-            if(currentGear < gearRatios.Length - 1)
+            if(currentGear < transmission.gearRatios.Length - 1)
             {
                 engageClutch();
                 throttleInput = 0;
                 gearUp();
-                Invoke(nameof(disengageClutch), shiftTime);
+                Invoke(nameof(disengageClutch), transmission.shiftTime);
             }
 
         }
@@ -253,16 +242,16 @@ public class CarController : MonoBehaviour
         float mt;
         if (currentGear > 0)
         {
-            float torque = torqueCurve.Evaluate(engineRPM);
-            mt = torque * gearRatios[currentGear] * throttleInput * motorForce;
+            float torque = engine.torqueCurve.Evaluate(engineRPM);
+            mt = torque * transmission.gearRatios[currentGear] * throttleInput * engine.motorForce;
         }
         else
         {
-            float torque = torqueCurve.Evaluate(-engineRPM);
-            mt = -torque * gearRatios[currentGear] * throttleInput * motorForce;
+            float torque = engine.torqueCurve.Evaluate(-engineRPM);
+            mt = -torque * transmission.gearRatios[currentGear] * throttleInput * engine.motorForce;
         }
 
-        if (drive == driveType.RWD)
+        if (suspension.drive == Suspension.driveType.RWD)
         {
             rearLeftWheelCollider.motorTorque = mt;
             rearRightWheelCollider.motorTorque = mt;
@@ -276,7 +265,7 @@ public class CarController : MonoBehaviour
         }
         currentBrakeForce = 0f;
 
-        currentBrakeForce = Mathf.Lerp(0, brakeForce, brakeInput);
+        currentBrakeForce = Mathf.Lerp(0, suspension.brakeForce, brakeInput);
         ApplyBraking();
     }
 
@@ -290,39 +279,31 @@ public class CarController : MonoBehaviour
 
     private void HandleSteering()
     {
-        currentSteerAngle = maxSteerAngle * horizontalInput;
+        currentSteerAngle = suspension.maxSteerAngle * horizontalInput;
         frontLeftWheelCollider.steerAngle = currentSteerAngle;
         frontRightWheelCollider.steerAngle = currentSteerAngle;
 
         if (isHandBrakeOn)
         {
-            rearLeftWheelCollider.brakeTorque = brakeForce;
-            rearRightWheelCollider.brakeTorque = brakeForce;
+            rearLeftWheelCollider.brakeTorque = suspension.brakeForce;
+            rearRightWheelCollider.brakeTorque = suspension.brakeForce;
         }
     }
 
     private void ApplyHandbrake()
     {
-        WheelFrictionCurve newForwardCurve = rearLeftWheelCollider.forwardFriction;
-        newForwardCurve.stiffness = defaultForwardFrictionCurve.stiffness / 2;
-        WheelFrictionCurve newSidewaysCurve = rearLeftWheelCollider.sidewaysFriction;
-        newSidewaysCurve.stiffness = defaultSidewaysFrictionCurve.stiffness / 2;
-        rearLeftWheelCollider.forwardFriction = newForwardCurve;
-        rearLeftWheelCollider.sidewaysFriction = newSidewaysCurve;
-        rearRightWheelCollider.forwardFriction = newForwardCurve;
-        rearRightWheelCollider.sidewaysFriction = newSidewaysCurve;
+        rearLeftWheelCollider.GetComponent<wheelControler>().ApplyHandbrake();
+        rearRightWheelCollider.GetComponent<wheelControler>().ApplyHandbrake();
+        frontLeftWheelCollider.GetComponent<wheelControler>().ApplyHandbrake();
+        frontRightWheelCollider.GetComponent<wheelControler>().ApplyHandbrake();
     }
 
     private void ReleaseHandbrake()
     {
-        WheelFrictionCurve newForwardCurve = rearLeftWheelCollider.forwardFriction;
-        newForwardCurve.stiffness = defaultForwardFrictionCurve.stiffness;
-        WheelFrictionCurve newSidewaysCurve = rearLeftWheelCollider.sidewaysFriction;
-        newSidewaysCurve.stiffness = defaultSidewaysFrictionCurve.stiffness;
-        rearLeftWheelCollider.forwardFriction = newForwardCurve;
-        rearLeftWheelCollider.sidewaysFriction = newSidewaysCurve;
-        rearRightWheelCollider.forwardFriction = newForwardCurve;
-        rearRightWheelCollider.sidewaysFriction = newSidewaysCurve;
+        rearLeftWheelCollider.GetComponent<wheelControler>().ReleaseHandbrake();
+        rearRightWheelCollider.GetComponent<wheelControler>().ReleaseHandbrake();
+        frontLeftWheelCollider.GetComponent<wheelControler>().ReleaseHandbrake();
+        frontRightWheelCollider.GetComponent<wheelControler>().ReleaseHandbrake();
     }
     private void UpdateWheels()
     {

@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7606ed1b999de2e4b84563f0591ccab4, type: 3}
+  m_Name: V8
+  m_EditorClassIdentifier: 
+  motorForce: 5
+  torqueCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0000019073486
+      value: 110.03246
+      inSlope: 0.01702039
+      outSlope: 0.01702039
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.04508837
+    - serializedVersion: 3
+      time: 2504.2578
+      value: 99.76186
+      inSlope: -0.00074874173
+      outSlope: -0.00074874173
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.3340895
+    - serializedVersion: 3
+      time: 3002.5615
+      value: -0.54156494
+      inSlope: -0.30775046
+      outSlope: -0.30775046
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.10173626
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  redline: 2500
+  maxRpm: 3000

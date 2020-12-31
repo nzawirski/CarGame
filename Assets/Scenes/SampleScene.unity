@@ -475,6 +475,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 225060659, guid: 493f102d2090f8d46af91ba621813e86, type: 3}
+      propertyPath: wheel
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b432f22b482e9f4ab00b531928842e2,
+        type: 2}
+    - target: {fileID: 491132039, guid: 493f102d2090f8d46af91ba621813e86, type: 3}
+      propertyPath: wheel
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b432f22b482e9f4ab00b531928842e2,
+        type: 2}
+    - target: {fileID: 1101258958, guid: 493f102d2090f8d46af91ba621813e86, type: 3}
+      propertyPath: wheel
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b432f22b482e9f4ab00b531928842e2,
+        type: 2}
+    - target: {fileID: 1390269907, guid: 493f102d2090f8d46af91ba621813e86, type: 3}
+      propertyPath: wheel
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b432f22b482e9f4ab00b531928842e2,
+        type: 2}
     - target: {fileID: 631679903144941826, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
@@ -490,6 +510,12 @@ PrefabInstance:
       propertyPath: tacho
       value: 
       objectReference: {fileID: 735428618}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: engine
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f8374aeff8c3e642a2dff6c2a5bf55b,
+        type: 2}
     - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: speedo
@@ -520,6 +546,18 @@ PrefabInstance:
       propertyPath: rpmDisplay
       value: 
       objectReference: {fileID: 435681667}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: suspension
+      value: 
+      objectReference: {fileID: 11400000, guid: eef4ed9f4d9b037499b8eaa655419b3f,
+        type: 2}
+    - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
+        type: 3}
+      propertyPath: transmission
+      value: 
+      objectReference: {fileID: 11400000, guid: 96635da96c0847145abb30ae8e8a8d24,
+        type: 2}
     - target: {fileID: 4525952701455158317, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: m_ForwardFriction.m_Stiffness
@@ -626,7 +664,7 @@ GameObject:
   - component: {fileID: 559525734}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Offroad
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1684,7 +1722,7 @@ GameObject:
   - component: {fileID: 1045122100}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Offroad
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -2407,7 +2445,7 @@ GameObject:
   - component: {fileID: 1755903837}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Road
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
