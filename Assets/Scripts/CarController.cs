@@ -39,6 +39,15 @@ public class CarController : MonoBehaviour
 
     private Rigidbody rb;
 
+    public enum gearboxTypes {
+        auto,
+        manual
+    };
+
+    public gearboxTypes gearboxType;
+
+    float engineLowerGear = 0;
+
     //stats
     public Transform centerOfMass;
 
@@ -88,6 +97,8 @@ public class CarController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = centerOfMass.localPosition;
 
+        ApplySuspension();
+
         //Sound
         //event:/Engine/Engine1
 
@@ -130,6 +141,25 @@ public class CarController : MonoBehaviour
 
         ca.intensity.Override(caIntensity);
 
+        if (gearboxType == gearboxTypes.auto)
+        {
+            engineLowerGear = (rearLeftWheelCollider.rpm + rearRightWheelCollider.rpm) / 2f * transmission.gearRatios[currentGear-1];
+            
+            WheelHit hit;
+
+            if (frontLeftWheelCollider.GetGroundHit(out hit))
+            { 
+                if (engineRPM>engine.redline && hit.forwardSlip < 0.2 && currentGear<transmission.gearRatios.Length-1) {
+
+                    gearUp();
+                }
+            }
+
+            if (engineLowerGear<engine.redline*0.8 && currentGear > 1 && Input.GetAxis("Vertical")<=0)
+            {
+                gearDown();
+            }
+        }
       
     }
 
@@ -146,7 +176,7 @@ public class CarController : MonoBehaviour
 
         HandleMotor();
         HandleSteering();
-       
+
     }
 
     private void GetInput()
@@ -192,27 +222,23 @@ public class CarController : MonoBehaviour
             ReleaseHandbrake();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown("joystick button 2")) //gear down
-        {
-            if(currentGear > 0)
+       // if (gearboxType == gearboxTypes.manual) { 
+            if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown("joystick button 2")) //gear down
             {
-                engageClutch();
-                throttleInput = 0;
-                gearDown();
-                Invoke(nameof(disengageClutch), transmission.shiftTime);
+                if(currentGear > 0)
+                { 
+                    gearDown();
+                }
             }
-        }
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 1")) //gear up
-        {
-            if(currentGear < transmission.gearRatios.Length - 1)
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 1")) //gear up
             {
-                engageClutch();
-                throttleInput = 0;
-                gearUp();
-                Invoke(nameof(disengageClutch), transmission.shiftTime);
-            }
+                if(currentGear < transmission.gearRatios.Length - 1)
+                {
+                    gearUp();    
+                }
 
-        }
+            }
+      //  }
 
     }
 
@@ -228,11 +254,17 @@ public class CarController : MonoBehaviour
 
     private void gearUp()
     {
+        engageClutch();
+        throttleInput = 0;
         currentGear += 1;
+        Invoke(nameof(disengageClutch), transmission.shiftTime);
     }
     private void gearDown()
     {
+        engageClutch();
+        throttleInput = 0;
         currentGear -= 1;
+        Invoke(nameof(disengageClutch), transmission.shiftTime);
     }
 
 
@@ -265,7 +297,14 @@ public class CarController : MonoBehaviour
         }
         currentBrakeForce = 0f;
 
-        currentBrakeForce = Mathf.Lerp(0, suspension.brakeForce, brakeInput);
+        if (throttleInput == 0 && brakeInput == 0)
+        {
+            currentBrakeForce = Mathf.Lerp(0,1000,engineRPM/engine.redline);
+        } else
+        {
+            currentBrakeForce = Mathf.Lerp(0, suspension.brakeForce, brakeInput);
+        }
+
         ApplyBraking();
     }
 
@@ -273,8 +312,16 @@ public class CarController : MonoBehaviour
     {
         frontRightWheelCollider.brakeTorque = currentBrakeForce;
         frontLeftWheelCollider.brakeTorque = currentBrakeForce;
-        rearLeftWheelCollider.brakeTorque = currentBrakeForce;
-        rearRightWheelCollider.brakeTorque = currentBrakeForce;
+       
+        if (isHandBrakeOn)
+        {
+            rearLeftWheelCollider.brakeTorque = suspension.brakeForce;
+            rearRightWheelCollider.brakeTorque = suspension.brakeForce;
+        } else
+        {
+            rearLeftWheelCollider.brakeTorque = currentBrakeForce;
+            rearRightWheelCollider.brakeTorque = currentBrakeForce;
+        }
     }
 
     private void HandleSteering()
@@ -283,11 +330,7 @@ public class CarController : MonoBehaviour
         frontLeftWheelCollider.steerAngle = currentSteerAngle;
         frontRightWheelCollider.steerAngle = currentSteerAngle;
 
-        if (isHandBrakeOn)
-        {
-            rearLeftWheelCollider.brakeTorque = suspension.brakeForce;
-            rearRightWheelCollider.brakeTorque = suspension.brakeForce;
-        }
+
     }
 
     private void ApplyHandbrake()
@@ -320,5 +363,23 @@ public class CarController : MonoBehaviour
         wheelCollider.GetWorldPose(out pos, out rot);
         wheelTransform.rotation = rot;
         wheelTransform.position = pos;
+    }
+
+    private void ApplySuspension()
+    {
+        rearLeftWheelCollider.suspensionDistance = suspension.suspensionDistance;
+        rearRightWheelCollider.suspensionDistance = suspension.suspensionDistance;
+        frontLeftWheelCollider.suspensionDistance = suspension.suspensionDistance;
+        frontRightWheelCollider.suspensionDistance = suspension.suspensionDistance;
+
+
+        JointSpring nSuspension = rearLeftWheelCollider.suspensionSpring;
+        nSuspension.spring = suspension.springs;
+        nSuspension.damper = suspension.damper;
+
+        rearLeftWheelCollider.suspensionSpring = nSuspension;
+        rearRightWheelCollider.suspensionSpring = nSuspension;
+        frontLeftWheelCollider.suspensionSpring = nSuspension;
+        frontRightWheelCollider.suspensionSpring = nSuspension;
     }
 }

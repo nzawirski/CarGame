@@ -12,5 +12,8 @@ public class Suspension : ScriptableObject
     public float maxSteerAngle;
     public float springs;
     public float damper;
+
+    [Range(0,1)]
+    public float suspensionDistance;
     
 }
