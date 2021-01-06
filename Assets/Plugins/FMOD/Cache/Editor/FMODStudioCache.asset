@@ -20,6 +20,26 @@ MonoBehaviour:
   - Name: Desktop
     Value: 350688
   Exists: 1
+--- !u!114 &-7172029715098861311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Engine1/Load
+  m_EditorClassIdentifier: 
+  Name: Load
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
 --- !u!114 &-6408812336360109645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,6 +78,31 @@ MonoBehaviour:
     data1: 0
     data2: 0
   Exists: 1
+--- !u!114 &-5637691843991568485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Engine/Engine1
+  m_EditorClassIdentifier: 
+  Path: event:/Engine/Engine1
+  guid: e3d79b23dd584845a6c22e62dc11550c
+  Banks:
+  - {fileID: 3559894702754863369}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -2782516461508256535}
+  - {fileID: -7172029715098861311}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-5208550455050467167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +197,49 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 441
+--- !u!114 &-2782516461508256535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Engine1/RPM
+  m_EditorClassIdentifier: 
+  Name: RPM
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 0
+    data2: 0
+  Exists: 1
+--- !u!114 &-2045297983676274600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Wheels/skid1
+  m_EditorClassIdentifier: 
+  Path: event:/Wheels/skid1
+  guid: c3ae9dd865fd8742ba9f886854b32db4
+  Banks:
+  - {fileID: 3559894702754863369}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 14129
 --- !u!114 &-1120391711740953913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,17 +293,17 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 4158372435447234020}
-  - {fileID: -6408812336360109645}
+  - {fileID: 8250232612476077529}
+  - {fileID: 3559894702754863369}
   EditorEvents:
-  - {fileID: -3250079679560706817}
-  - {fileID: -3253232267698011567}
+  - {fileID: -2045297983676274600}
+  - {fileID: -5637691843991568485}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -6408812336360109645}
+  - {fileID: 3559894702754863369}
   StringsBanks:
-  - {fileID: 4158372435447234020}
-  stringsBankWriteTime: 637450269021493089
+  - {fileID: 8250232612476077529}
+  stringsBankWriteTime: 637448441631130257
   cacheVersion: 5
 --- !u!114 &207989859456181745
 MonoBehaviour:
@@ -306,6 +394,26 @@ MonoBehaviour:
   - Name: Desktop
     Value: 898
   Exists: 1
+--- !u!114 &3559894702754863369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: E:/FMOD Projects/CarGame/Build/Desktop/Master.bank
+  Name: Master
+  lastModified: 637448441631050274
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 350688
+  Exists: 1
 --- !u!114 &4158372435447234020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,3 +502,23 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 14129
+--- !u!114 &8250232612476077529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: E:/FMOD Projects/CarGame/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  lastModified: 637448441631130257
+  LoadResult: 0
+  FileSizes:
+  - Name: Desktop
+    Value: 898
+  Exists: 1

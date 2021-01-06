@@ -65,8 +65,8 @@ public class wheelControler : MonoBehaviour
                 {
                     WheelFrictionCurve roadForward = wheelCollider.forwardFriction;
                     WheelFrictionCurve roadSideways = wheelCollider.sidewaysFriction;
-                    roadForward.stiffness = roadForwardFrictionCurve.stiffness / 2;
-                    roadSideways.stiffness = roadSidewaysFrictionCurve.stiffness / 2;
+                    roadForward.stiffness = roadForwardFrictionCurve.stiffness * 0.5f;
+                    roadSideways.stiffness = roadSidewaysFrictionCurve.stiffness * 0.2f;
                     wheelCollider.forwardFriction = roadForward;
                     wheelCollider.sidewaysFriction = roadSideways;
                 } else
@@ -81,8 +81,8 @@ public class wheelControler : MonoBehaviour
                 {
                     WheelFrictionCurve offroadForward = wheelCollider.forwardFriction;
                     WheelFrictionCurve offroadSideways = wheelCollider.sidewaysFriction;
-                    offroadForward.stiffness = offroadForwardFrictionCurve.stiffness / 2;
-                    offroadSideways.stiffness = offroadSidewaysFrictionCurve.stiffness / 2;
+                    offroadForward.stiffness = offroadForwardFrictionCurve.stiffness * 0.5f;
+                    offroadSideways.stiffness = offroadSidewaysFrictionCurve.stiffness * 0.2f;
                     wheelCollider.forwardFriction = offroadForward;
                     wheelCollider.sidewaysFriction = offroadSideways;
                 }

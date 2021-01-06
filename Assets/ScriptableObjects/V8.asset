@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7606ed1b999de2e4b84563f0591ccab4, type: 3}
   m_Name: V8
   m_EditorClassIdentifier: 
-  motorForce: 5
+  motorForce: 20
   torqueCurve:
     serializedVersion: 2
     m_Curve:

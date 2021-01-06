@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1749deb7c4c4e3a4bbc44a754cf2411f, type: 3}
-  m_Name: Michelin - Copy
+  m_Script: {fileID: 11500000, guid: fd960c52db071434198653e3f7e7fbc5, type: 3}
+  m_Name: AWD
   m_EditorClassIdentifier: 
-  roadFwdGrip: 5
-  roadSwsGrip: 2
-  offFwdGrip: 1
-  offSwsGrip: 0
+  drive: 1
+  brakeForce: 3000
+  maxSteerAngle: 45
+  springs: 90000
+  damper: 8500
+  suspensionDistance: 0.305

@@ -186,8 +186,8 @@ MonoBehaviour:
   SwitchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: ../fmod/FMOD-CarGame/CarGame.fspro
-  sourceBankPath: ..\fmod\FMOD-CarGame\Build
+  sourceProjectPath: E:/FMOD Projects/CarGame/CarGame.fspro
+  sourceBankPath: E:\FMOD Projects\CarGame\Build
   SourceBankPathUnformatted: 
   AutomaticEventLoading: 1
   BankLoadType: 0

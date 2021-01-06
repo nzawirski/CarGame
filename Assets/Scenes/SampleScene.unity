@@ -483,12 +483,12 @@ PrefabInstance:
     - target: {fileID: 491132039, guid: 493f102d2090f8d46af91ba621813e86, type: 3}
       propertyPath: wheel
       value: 
-      objectReference: {fileID: 11400000, guid: 3ae65d6011243984abee178fe01f2c14,
+      objectReference: {fileID: 11400000, guid: 4b432f22b482e9f4ab00b531928842e2,
         type: 2}
     - target: {fileID: 1101258958, guid: 493f102d2090f8d46af91ba621813e86, type: 3}
       propertyPath: wheel
       value: 
-      objectReference: {fileID: 11400000, guid: 3ae65d6011243984abee178fe01f2c14,
+      objectReference: {fileID: 11400000, guid: 4b432f22b482e9f4ab00b531928842e2,
         type: 2}
     - target: {fileID: 1338223376, guid: 493f102d2090f8d46af91ba621813e86, type: 3}
       propertyPath: m_LocalPosition.x
@@ -567,7 +567,7 @@ PrefabInstance:
     - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}
       propertyPath: gearboxType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2488907007664168253, guid: 493f102d2090f8d46af91ba621813e86,
         type: 3}

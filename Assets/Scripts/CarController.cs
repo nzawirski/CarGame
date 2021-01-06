@@ -205,15 +205,7 @@ public class CarController : MonoBehaviour
             brakeInput = -verticalInput;
         }
 
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey("joystick button 0")) //handbrake
-        {
-            isHandBrakeOn = true;
-        }
-        else
-        {
-            isHandBrakeOn = false;
-        }
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0"))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 0"))   //handbrake
         {
             ApplyHandbrake();
         }
@@ -299,8 +291,9 @@ public class CarController : MonoBehaviour
 
         if (throttleInput == 0 && brakeInput == 0)
         {
-            currentBrakeForce = Mathf.Lerp(0,1000,engineRPM/engine.redline);
-        } else
+            currentBrakeForce = Mathf.Lerp(0, 1000, engineRPM / engine.redline); // engine braking
+        }
+        else
         {
             currentBrakeForce = Mathf.Lerp(0, suspension.brakeForce, brakeInput);
         }
@@ -315,8 +308,8 @@ public class CarController : MonoBehaviour
        
         if (isHandBrakeOn)
         {
-            rearLeftWheelCollider.brakeTorque = suspension.brakeForce;
-            rearRightWheelCollider.brakeTorque = suspension.brakeForce;
+            rearLeftWheelCollider.brakeTorque = suspension.brakeForce * 2;
+            rearRightWheelCollider.brakeTorque = suspension.brakeForce * 2;
         } else
         {
             rearLeftWheelCollider.brakeTorque = currentBrakeForce;
@@ -335,18 +328,16 @@ public class CarController : MonoBehaviour
 
     private void ApplyHandbrake()
     {
+        isHandBrakeOn = true;
         rearLeftWheelCollider.GetComponent<wheelControler>().ApplyHandbrake();
         rearRightWheelCollider.GetComponent<wheelControler>().ApplyHandbrake();
-        frontLeftWheelCollider.GetComponent<wheelControler>().ApplyHandbrake();
-        frontRightWheelCollider.GetComponent<wheelControler>().ApplyHandbrake();
     }
 
     private void ReleaseHandbrake()
     {
+        isHandBrakeOn = false;
         rearLeftWheelCollider.GetComponent<wheelControler>().ReleaseHandbrake();
         rearRightWheelCollider.GetComponent<wheelControler>().ReleaseHandbrake();
-        frontLeftWheelCollider.GetComponent<wheelControler>().ReleaseHandbrake();
-        frontRightWheelCollider.GetComponent<wheelControler>().ReleaseHandbrake();
     }
     private void UpdateWheels()
     {
