@@ -291,7 +291,7 @@ public class CarController : MonoBehaviour
 
         if (throttleInput == 0 && brakeInput == 0)
         {
-            currentBrakeForce = Mathf.Lerp(0, 1000, engineRPM / engine.redline); // engine braking
+            currentBrakeForce = Mathf.Lerp(0, 1000, (engineRPM - (engineRPM * 0.5f)) / engine.redline); // engine braking
         }
         else
         {
